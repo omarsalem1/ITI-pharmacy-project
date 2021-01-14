@@ -1,3 +1,6 @@
+function logout(){
+  sessionStorage.user=undefined;
+}
 /*document.getElementById("logout").addEventListener("click",function(){
   sessionStorage.user=undefined;
 });*/

@@ -1,3 +1,6 @@
+function logout(){
+    sessionStorage.user=undefined;
+}
 var video = document.querySelector("#videoElement");
 var canvas = document.querySelector("#showscreenshot");
 let photo;
