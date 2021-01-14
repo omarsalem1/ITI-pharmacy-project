@@ -1,0 +1,50 @@
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pharmcy login</title>
+        <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container">
+            
+                
+                <input type="text" id="u1" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                
+               <br> <input type="password" id="p1" class="form-control" placeholder="password" aria-label="password" aria-describedby="basic-addon1">
+               <br> <button type="button" onclick="check()" class="btn btn-primary">Sign in</button>
+        </div>
+        <script> 
+                 
+              
+          var db = openDatabase('mydb', '1.0', 'Test DB', 2 * 1024 * 1024); 
+          function check(){
+            var un= document.getElementById("u1").value;
+                 var pass = document.getElementById("p1").value;
+                 
+                 
+         db.transaction(function (tx) { 
+            tx.executeSql('SELECT * FROM USERS where username=? AND password=?', [un,pass], function (tx, results) { 
+                if(results.rows.length>0)
+                {
+                    sessionStorage.user=un;
+                    window.location.replace("customer.html");
+                    
+                }
+                else{
+                    alert("user name or password is incorrect");
+                }
+         }); });
+		 
+        }
+
+        </script>
+        
+        
+    </body>
+    </html>
+    <html>
+    
+    
+    </html>

@@ -1,0 +1,103 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    
+</head>
+<body>
+  <div class="container">
+  <div class="row">
+    <div class="col-sm-">
+        <div class="list-group">
+            <a href="customer.html" class="list-group-item list-group-item-action"  >
+              BUY
+            </a>
+            <a href="seller.html" class="list-group-item list-group-item-action active" aria-current="true">SELL </a>
+            <a href="invoiceseller.html" class="list-group-item list-group-item-action">Sold and bought history</a>
+            <a href="loginTest.html" class="list-group-item list-group-item-action">LOG OUT</a>
+          </div>
+    </div>
+    <div class="col-lg- mx-3">
+    
+    <input type="text" id="n1" class="form-control" placeholder="itemname" aria-label="itemname" aria-describedby="basic-addon1" required>
+    <input type="number" id="q1" class="form-control" placeholder="quantity" aria-label="quantity" aria-describedby="basic-addon1">
+    <input type="number" id="pr" class="form-control" placeholder="price" aria-label="price" aria-describedby="basic-addon1">
+  
+    <div class="container">
+        <video autoplay="true" id="videoElement">
+        
+        </video>
+        <canvas id="showscreenshot" ></canvas></div>
+        <br> <button type="button" onclick="takescreenshot()" class="btn btn-primary">take a photo</button>
+    <br> <button type="button" onclick="additem()" class="btn btn-primary">add item</button>
+    
+  </div></div></div>
+  <script>
+        var video = document.querySelector("#videoElement");
+        var canvas = document.querySelector("#showscreenshot");
+        let photo;
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+              navigator.mediaDevices.getUserMedia({ video: true, audio:false })
+                .then(function (stream) {
+                  video.srcObject = stream;
+                })
+                .catch(function (error) {
+                  console.log("Something went wrong!");
+                });
+            }
+
+            function takescreenshot () {
+		  canvas.width = video.videoWidth;
+		  canvas.height = video.videoHeight;
+		  canvas.getContext("2d").drawImage(video, 0, 0);
+		  // Other browsers will fall back to image/png
+         photo = canvas.toDataURL("image/png");
+        // console.log(photo);
+    };
+    
+      ///////////////////////////////////////////////////////////////////////////////////////////////////////  
+        var db = openDatabase('mydb', '1.0', 'Test DB', 2 * 1024 * 1024);
+        db.transaction(function (tx) { 
+                    
+                    
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS items (itemname varchar(255) NOT NULL,quantity int,image,price,sellername  )');
+                    })
+                    function additem(){
+                       // console.log(photo);
+                        db.transaction(function (tx) { 
+            var itemname = document.getElementById("n1").value;
+            var quantity = document.getElementById("q1").value;
+            var price =document.getElementById("pr").value;
+            
+                    tx.executeSql('SELECT * FROM items where itemname=? ', [itemname], function (tx, results) { 
+                       
+        
+                        if(results.rows.length>0)
+                        {
+                            alert("itemname  already exists");
+                        }
+                        else{
+            if(itemname==undefined){
+             alert("item name can't be empty");
+            }
+            
+            else if(quantity<=0||price<=0){
+                alert("quantity and price  can't be zero or less");
+            }else{
+                alert("item created succesfully");
+                console.log(photo);
+                
+                tx.executeSql('INSERT INTO items (itemname,quantity,price,image,sellername) VALUES (?,?,?,?,?)',[itemname,quantity,price,photo,sessionStorage.user]);
+                }
+                        }
+                 }); 
+                  });
+                    }
+        
+        
+            </script>
+</body>
+</html>
