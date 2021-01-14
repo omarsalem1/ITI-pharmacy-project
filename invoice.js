@@ -1,3 +1,8 @@
+if(sessionStorage.user==undefined){
+  while (1) {
+    alert("you can't access the page while you aren't logged in")
+    
+  }}
 function logout(){
   sessionStorage.user=undefined;
 }
