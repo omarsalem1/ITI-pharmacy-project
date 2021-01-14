@@ -1,105 +1,57 @@
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <script>
-var db = openDatabase('mydb', '1.0', 'Test DB', 2 * 1024 * 1024);
-db.transaction(function (tx) { 
-            
-    tx.executeSql('SELECT * FROM items', [], function (tx, results) { 
-            
-			   for (var i = 0; i < results.rows.length; i++) { 
-                const divel = document.createElement("div");
-                const hel=document.createElement("h5");
-                const sel=document.createElement("strong");
-                const imgel=document.createElement("img");
-                const bel=document.createElement("button");
-               hel.innerHTML= `${results.rows.item(i).itemname}`;
-               sel.innerHTML= "price :" +`${results.rows.item(i).price}`+"$ <br>";
-               divel.className="card my-3";
-               divel.style="width: 18rem;";
-               imgel.className="card-img-top";
-               let itname=`${results.rows.item(i).itemname}`;
-               let sellname=`${results.rows.item(i).sellername}`;
-               let quan =`${results.rows.item(i).quantity}`;
-               
-               
-               
-               imgel.src=results.rows.item(i).image
-               bel.type="button";
-               bel.innerText="buy now";
-               bel.addEventListener("click",function() {
-                  // alert(itname);
-                
-                    console.log(sellname);
-                    console.log(sessionStorage.user);
-                    
-                      var d = new Date();
-                      let q =Number (prompt("how much do you want",1)) ;
-                      if(q>quan){
-                        alert ("this quantity isn't avaiable");
-                      }
-                      else if(q<=0 || q==NaN){
-                        alert ("enter a realistic value");
-                      } 
-                      else{
-                        db.transaction(function (tx) { 
-                         tx.executeSql('CREATE TABLE IF NOT EXISTS INVOICES (username,itemname, quantity,type,date)'); 
-                tx.executeSql('INSERT INTO INVOICES (username , itemname, quantity,type,date) VALUES (?,?,?,"b",?)',[sessionStorage.user,itname,q,d]); 
-                tx.executeSql('INSERT INTO INVOICES (username , itemname, quantity,type,date) VALUES (?,?,?,"s",?)',[sellname,itname,q,d]);
-               tx.executeSql('update items set quantity=quantity-? where itemname=?',[q,itname]);
-                 })
-        
-                 alert("purchase completed successfully");  
-                      }
-                     
-
-                       
-               })
-               
-             //  console.log(results.rows.item(i).itemname)
-               
-              divel.appendChild(imgel);
-               divel.appendChild(hel);
-               divel.appendChild(sel);
-               if(quan>0){
-                 bel.className="btn btn-primary m-3";
-                 divel.appendChild(bel);
-                }else{
-                sele=document.createElement("strong")
-                sele.className="text-danger ";
-                sele.innerHTML="OUT OF STOCK";
-                divel.appendChild(sele);
-                }
-               
-               document.querySelector("#container").appendChild(divel);
-					
-               } 
-			   
-			   
-            }, null); 
-            
-            
-            })
-
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <script src="customer.js">
+  </script>
+  <style>
+    body {
+      background: url('BG.jpg') no-repeat center center fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      background-size: cover;
+      -o-background-size: cover;
+    }
+  </style>
 </head>
-<body>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm- mx-3">
-                <div class="list-group">
-                    <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
-                      BUY
-                    </a>
-                    <a href="seller.html" class="list-group-item list-group-item-action">SELL </a>
-                    <a href="invoiceseller.html" class="list-group-item list-group-item-action">Soldand bought history</a>
-                    <a href="loginTest.html" class="list-group-item list-group-item-action">LOG OUT</a>
-                  </div>
-            </div>
 
-    <div class="col-md-" id="container"></div></div></div>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light mb-5" style="background-color: #e3f2fd;">
+    <div class="container-md">
+      <a class="navbar-brand text-danger" href="loginTest.html"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+          height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+        </svg> CVS</a>
+
+    </div>
+  </nav>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="list-group">
+          <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+            BUY
+          </a>
+          <a href="seller.html" class="list-group-item list-group-item-action">SELL </a>
+          <a href="invoiceseller.html" class="list-group-item list-group-item-action">Soldand bought history</a>
+          <a href="loginTest.html" class="list-group-item list-group-item-action">LOG OUT</a>
+        </div>
+      </div>
+      <div class="col-sm-8" id="c1"></div>
+    </div>
+  </div>
+
+
 </body>
+<footer class="w-100  text-center text-lg-start  " style="background-color: #e3f2fd;">
+
+  <div class="text-center text-danger p-3">
+    <strong> © 2020 Copyright:
+      <a class="text-danger" href="#">ITI</a></strong>
+  </div>
+</footer>
+
 </html>
