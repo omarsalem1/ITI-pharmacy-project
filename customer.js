@@ -1,3 +1,6 @@
+/*document.getElementById("logout").addEventListener("click",function(){
+  sessionStorage.user=undefined;
+});*/
 var db = openDatabase('mydb', '1.0', 'Test DB', 2 * 1024 * 1024);
 db.transaction(function (tx) { 
             
@@ -5,7 +8,7 @@ db.transaction(function (tx) {
             
 			   for (var i = 0; i < results.rows.length; i++) { 
                 const divel = document.createElement("div");
-                const hel=document.createElement("h5");
+                const hel=document.createElement("h3");
                 const sel=document.createElement("strong");
                 const imgel=document.createElement("img");
                 const bel=document.createElement("button");

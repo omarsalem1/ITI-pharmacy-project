@@ -58,3 +58,28 @@ function additem() {
         });
     });
 }
+
+
+
+
+        function edititem() {
+            db.transaction(function (tx) {
+                var itemname2 = document.getElementById("n2").value;
+                var quantity2 = document.getElementById("q2").value;
+                var price2 = document.getElementById("pr2").value;
+                tx.executeSql('SELECT * FROM items where itemname=? AND sellername=? ', [itemname2,sessionStorage.user], function (tx, results) {
+        
+                    if (results.rows.length <= 0) {
+                        alert("there's no item with this name or you aren't the seller");  
+                    } else if (quantity2 <= 0 || price2 <= 0) {
+                    alert("price or quantity can't be zero or less");
+                } 
+                    else {
+                        tx.executeSql('update items set quantity=quantity+? where itemname=?', [quantity2, itemname2]);
+                        tx.executeSql('update items set price=? where itemname=?', [price2, itemname2]);
+                        alert("item updated succesfully");
+                    }
+                
+    
+            });})
+        }
